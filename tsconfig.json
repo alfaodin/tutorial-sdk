@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "noImplicitAny": false,
+      "noEmitOnError": true,
+      "removeComments": false,
+      "sourceMap": true,
+      "target": "es6",
+      "module": "es6",
+      "lib": ["es6", "DOM"],
+      "outDir": "dist",
+      "typeRoots": [
+        "node_modules/@types"
+      ],
+      "baseUrl": "."
+    },
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "node_modules/*",
+    ]
+  }
+  
