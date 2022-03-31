@@ -96,7 +96,7 @@ console.log('BIEN');
         descriptionElement.innerText = tutorialData.description;
 
         const imageElement = iDom.getElementById('tutorial-picture');
-        imageElement.setAttribute('src', `../${tutorialData.url}`);
+        imageElement.setAttribute('src', `${tutorialData.url}`);
     }
 
     async function getTutorialTemplate() {
@@ -132,14 +132,15 @@ console.log('BIEN');
     function closeTutorial() {
         console.log('close...');
         const iframe = document.getElementById("tutorialIframe");
+        const iDom = iframe.contentWindow.document;
 
-        const closeButon = iframe.contentWindow.document.getElementById('close-tutorial-button');
+        const closeButon = iDom.getElementById('close-tutorial-button');
         closeButon.removeEventListener('click');
 
-        const backButon = iframe.contentWindow.document.getElementById('btn-anterior');
+        const backButon = iDom.getElementById('btn-anterior');
         backButon.removeEventListener('click');
 
-        const nextButon = iframe.contentWindow.document.getElementById('btn-siguiente');
+        const nextButon = iDom.getElementById('btn-siguiente');
         nextButon.removeEventListener('click');
 
         iframe.remove();
