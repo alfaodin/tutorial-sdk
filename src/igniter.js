@@ -3,10 +3,11 @@
     IGNITER_FILE_NAME = 'igniter';
     DATA_CLIENT_ID_ATTRIBUTE = 'data-client-id';
     MAIN_TUTORIAL_BUTTON_ID = 'tutorialButtonId';
-
+    clientConfig;
+    
     async function startTutorialIgniter() {
         const clientId = getClientId();
-        const clientConfig = await getClientConfiguration(clientId);
+        clientConfig = await getClientConfiguration(clientId);
         createTutorialUI(clientConfig);
     }
 
@@ -81,7 +82,7 @@
         for (let i = 0; i < topics.length; i++) {
             const topicHtml = document.createElement('button');
             topicHtml.className = 'topic-button';
-            topicHtml.innerText = topics[i];
+            topicHtml.innerText = topics[i].text;
             topicHtml.setAttribute('tutorial-id', `test${i}`);
             buttonsFragment.appendChild(topicHtml);
         }
@@ -95,8 +96,6 @@
         const mainButtonEle = document.getElementById(MAIN_TUTORIAL_BUTTON_ID);
 
         mainButtonEle.addEventListener('click', function () {
-            console.log('SET LOADING STATE');
-
             const topicsContainer = document.querySelector('.tutorial-topics-container');
             const isTutorialDisplayed = topicsContainer.style.display === 'none';
             topicsContainer.style.display = isTutorialDisplayed ? 'block' : 'none';
@@ -112,7 +111,9 @@
     function addListenersToTutorialsButton() {
         document.addEventListener('click', function (e) {
             if (e.target && e.target.className == 'topic-button') {
-                window.TutorialSDK.starTutorial(e.target.getAttribute('tutorial-id'));
+                const tutorialId = e.target.getAttribute('tutorial-id');
+                const tutorialConf = clientConfig.tutorial.findFirst(tutorial => tutorial.id === tutorialId);
+                window.TutorialSDK.starTutorial(tutorialConf);
             }
         });
     }

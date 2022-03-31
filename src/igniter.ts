@@ -9,8 +9,8 @@ class Igniter {
 
     async startTutorialIgniter() {
         const clientId = this.getClientId();
-        const clientConfig = await this.getClientConfiguration(clientId);
-        this.createTutorialUI(clientConfig);
+        this.clientConfig = await this.getClientConfiguration(clientId);
+        this.createTutorialUI(this.clientConfig);
     }
 
     //- get the client id configutation (simple HTML)
@@ -20,7 +20,7 @@ class Igniter {
     }
 
     //- get config file, like tutorial version, topics, completed turorials, UI and common styles (http request)
-    async getClientConfiguration(clientId) {
+    async getClientConfiguration(clientId): Promise<ClientConfigurationModel> {
         const url = `tutorial/${clientId}.json`;
         return new Promise((resolve, reject) => {
             const request = new XMLHttpRequest();
@@ -73,7 +73,7 @@ class Igniter {
     }
 
     createTutorialTopics(fragment, clientConfig) {
-        const rootHtml:HTMLDivElement = document.createElement('div');
+        const rootHtml: HTMLDivElement = document.createElement('div');
         rootHtml.className = 'tutorial-topics-container';
         rootHtml.innerHTML = clientConfig.topicTemplate;
         rootHtml.style.display = 'none';
@@ -84,8 +84,8 @@ class Igniter {
         for (let i = 0; i < topics.length; i++) {
             const topicHtml = document.createElement('button');
             topicHtml.className = 'topic-button';
-            topicHtml.innerText = topics[i];
-            topicHtml.setAttribute('tutorial-id', `test${i}`);
+            topicHtml.innerText = topics[i].text;
+            topicHtml.setAttribute('tutorial-id', `${topics[i].tutorialId}`);
             buttonsFragment.appendChild(topicHtml);
         }
         const topicContainer = rootHtml.querySelector('#topicTemplate div.btn-group');
@@ -100,7 +100,7 @@ class Igniter {
         mainButtonEle.addEventListener('click', () => {
             console.log('SET LOADING STATE');
 
-            const topicsContainer:HTMLDivElement = document.querySelector('.tutorial-topics-container');
+            const topicsContainer: HTMLDivElement = document.querySelector('.tutorial-topics-container');
             const isTutorialDisplayed = topicsContainer.style.display === 'none';
             topicsContainer.style.display = isTutorialDisplayed ? 'block' : 'none';
 
@@ -113,9 +113,12 @@ class Igniter {
     }
 
     addListenersToTutorialsButton() {
-        document.addEventListener('click', (e:any) => {
+        document.addEventListener('click', (e: any) => {
             if (e.target && e.target.className == 'topic-button') {
-                (window as any).TutorialSDK.starTutorial(e.target.getAttribute('tutorial-id'));
+                const tutorialId = e.target.getAttribute('tutorial-id');
+                const tutorialConf = this.clientConfig.tutorial.find(tutorial => `${tutorial.id}` === `${tutorialId}`);
+                (window as any).TutorialSDK.starTutorial(tutorialConf);
+                
             }
         });
     }
@@ -135,7 +138,7 @@ class Igniter {
     }
     // WHEN USER CLICKS the TUTORIAL BUTTON
     //- display the topics
-    
+
     //- users selects the topic through click in buttons
     //- load tutorial configuration
     //- tutorial SDK logic
@@ -150,4 +153,5 @@ export interface ClientConfigurationModel {
     topics: string[];
     topicTemplate: string;
     buttonTemplate: string;
+    tutorial: any[];
 }

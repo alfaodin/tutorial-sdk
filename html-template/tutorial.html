@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    html,
+    body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        position: relative;
+    }
+
+    #tutorial-main .content {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(242, 242, 242, 0.5);
+    }
+
+    .content .inner-content {
+        width: 90%;
+        height: 90%;
+        background: white;
+        border-radius: 8px;
+        display: grid;
+        grid-template-rows: 80% 20%;
+        position: relative;
+    }
+
+    .inner-content .header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .inner-content .description {
+        flex-basis: 40%;
+        width: 50%;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+        margin-bottom: 60px;
+    }
+
+    #tutorial-picture {
+        width: 50%;
+    }
+
+    .description .actions {
+        display: grid;
+        width: 85%;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        grid-template-areas: "back next";
+    }
+
+    .description .actions button {
+        padding: 5px 15px;
+        border-radius: 4px;
+    }
+
+    .description .actions button:first-child {
+        grid-area: back;
+    }
+
+    .description .actions button:nth-child(2) {
+        grid-area: next;
+    }
+
+    #close-tutorial-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border-radius: 500px;
+        width: 35px;
+        height: 35px;
+    }
+
+    button {
+        cursor: pointer;
+        color: white;
+        background: #08f;
+        border: 0;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body id="tutorial-main">
+    <div class="content">
+        <div class="inner-content">
+            <button id="close-tutorial-button" onclick="closeTutorial()">X</button>
+            <div class="header">
+                <h3 id="tutorial-title"></h3>
+                <img id="tutorial-picture" src="tutorial/ing002.png" alt="tutorial picture">
+            </div>
+            <div class="description">
+                <p id="tutorial-description">
+
+                </p>
+                <div class="actions">
+                    <button id="btn-anterior">ANTERIOR</button>
+                    <button id="btn-siguiente">SIGUIENTE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
